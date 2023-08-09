@@ -136,7 +136,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                         onPressed: () {
                                           Navigator.push(context,
                                 MaterialPageRoute(
-                                    builder: (context) => DetailScreen()));
+                                    builder: (context) => DetailScreen(id: windows[index]['id'],)));
                                           },
                                         icon: const Icon(Icons.remove_red_eye_outlined),
                                         label: const Text('Details'))
@@ -181,7 +181,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                       onPressed: () {
                                         Navigator.push(context,
                                 MaterialPageRoute(
-                                    builder: (context) => DetailScreen()));},
+                                    builder: (context) => DetailScreen(id: doors[index]['id'],)));},
                                       icon: const Icon(Icons.remove_red_eye_outlined),
                                       label: const Text('Details'))
                                 ]),
@@ -226,7 +226,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                       onPressed: () {
                                         Navigator.push(context,
                                 MaterialPageRoute(
-                                    builder: (context) => DetailScreen()));
+                                    builder: (context) => DetailScreen(id: pots[index]['id'],)));
                                       },
                                       icon: const Icon(Icons.remove_red_eye_outlined),
                                       label: const Text('Delete'))

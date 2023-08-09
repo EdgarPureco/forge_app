@@ -7,6 +7,9 @@ class GlobalData {
   static var textBlack30 = appStyle(30, Colors.black, FontWeight.w600);
   static var textBlack24 = appStyle(24, Colors.black, FontWeight.bold);
   static var textBlack22 = appStyle(22, Colors.black, FontWeight.bold);
+  static var textBlack20 = appStyle(20, Colors.black, FontWeight.bold);
+  static var textBlack18Ht = appStyleHeight(18, Colors.black, FontWeight.bold, 0.8 );
+  static var textBlack16Ht = appStyleHeight(16, Colors.black, FontWeight.bold, 0.6 );
 
   static var textGrey18 = appStyleHeight(18, Colors.grey, FontWeight.bold, 1.5 );
 

@@ -60,7 +60,7 @@ class UtilProvider extends ChangeNotifier {
 
   Future checkSession() async {
     Map<String, String> allValues = await storage.readAll();
-    if (allValues['inSesion'] == '1') {
+    if (allValues['inSesion'] == 'true') {
       return 1;
     } else {
       return 0;

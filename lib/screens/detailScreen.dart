@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:forge_app/models/product.dart';
 import 'package:forge_app/shared/env.dart';
 import 'package:forge_app/providers/products_provider.dart';
@@ -7,15 +9,17 @@ import 'package:provider/provider.dart';
 import 'package:another_flushbar/flushbar.dart';
 
 class DetailScreen extends StatefulWidget {
-  const DetailScreen({super.key});
+  const DetailScreen({Key? key, required this.id}) : super(key: key);
+  final int id;
 
   @override
   State<DetailScreen> createState() => _DetailScreenState();
 }
 
 class _DetailScreenState extends State<DetailScreen> {
+
   void initState() {
-    Provider.of<ProductsProvider>(context, listen: false).getProduct('1');
+    Provider.of<ProductsProvider>(context, listen: false).getProduct(widget.id.toString());
     super.initState();
   }
 
@@ -34,7 +38,7 @@ class _DetailScreenState extends State<DetailScreen> {
             height: MediaQuery.of(context).size.height * 0.35,
             padding: const EdgeInsets.only(bottom: 30),
             width: double.infinity,
-            child: Image.asset('assets/images/main_image.png'),
+            child: Image.memory(base64.decode(product.image)),
           ),
           Expanded(
             child: Stack(

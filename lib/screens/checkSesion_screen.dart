@@ -1,6 +1,4 @@
 import 'package:forge_app/providers/util_provider.dart';
-// import 'package:forge_app/themes/app_theme.dart';
-// import 'package:forge_app/widgets/logo_widget.dart';
 import 'package:flutter/material.dart';
 
 class CheckSesionScreen extends StatelessWidget {
@@ -23,7 +21,7 @@ class CheckSesionScreen extends StatelessWidget {
 
           if (snapshot.data == 1) {
             Future.microtask(
-                () => Navigator.pushReplacementNamed(context, "/Home"));
+                () => Navigator.pushReplacementNamed(context, "/Products"));
           } else {
             Future.microtask(
                 () => Navigator.pushReplacementNamed(context, "/Login"));
