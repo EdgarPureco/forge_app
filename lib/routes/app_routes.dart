@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:forge_app/screens/admin/productsAdminScreen.dart';
 import 'package:forge_app/screens/cartScreen.dart';
 import 'package:forge_app/screens/checkSesion_screen.dart';
 import 'package:forge_app/screens/productsScreen.dart';
@@ -13,6 +14,10 @@ class AppRoutes {
     '/CheckSesion': (BuildContext context) => const CheckSesionScreen(),
     '/Cart': (BuildContext context) => const CartScreen(),
     '/Products': (BuildContext context) => const ProductsScreen(),
+
+    // ADMIN
+
+    'admin/Products': (BuildContext context) => const ProductsAdminScreen(),
   };
   static onGenerateRoute(settings) {
     return MaterialPageRoute(builder: (context) => const ErrorScreen());

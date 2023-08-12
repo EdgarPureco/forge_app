@@ -22,7 +22,7 @@ class UtilProvider extends ChangeNotifier {
     await getToken();
     var headers = {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer ${token}' 
+      'Authorization': 'Bearer $token' 
     };
     var response = await http.get(Uri.parse(urlBase), headers: headers);
     return response;
@@ -32,7 +32,7 @@ class UtilProvider extends ChangeNotifier {
     await getToken();
     var headers = {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer ${token}' 
+      'Authorization': 'Bearer $token' 
     };
 
     var response = await http.delete(
@@ -76,8 +76,8 @@ class UtilProvider extends ChangeNotifier {
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body.toString());
       await storage.write(key: 'token', value: data['token']);
-      // await storage.write(key: 'role', value: data['role']);
-      // await storage.write(key: 'name', value: data['name']);
+      await storage.write(key: 'role', value: data['role']);
+      await storage.write(key: 'name', value: data['name']);
       await storage.write(key: 'inSesion', value: data['authenticated'].toString());
 
       if(data['authenticated']!=true){

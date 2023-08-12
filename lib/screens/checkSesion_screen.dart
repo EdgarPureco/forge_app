@@ -1,3 +1,4 @@
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:forge_app/providers/util_provider.dart';
 import 'package:flutter/material.dart';
 
@@ -6,6 +7,7 @@ class CheckSesionScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final storage = const FlutterSecureStorage();
     return Scaffold(
       backgroundColor: Colors.white,
       body: FutureBuilder(
@@ -20,8 +22,13 @@ class CheckSesionScreen extends StatelessWidget {
           }
 
           if (snapshot.data == 1) {
-            Future.microtask(
-                () => Navigator.pushReplacementNamed(context, "/Products"));
+            if(storage.read(key: 'role') == 'customer'){
+              Future.microtask(
+                () => Navigator.pushReplacementNamed(context, "/Home"));
+            }else{
+              Future.microtask(
+                () => Navigator.pushReplacementNamed(context, "/admin/Products"));
+            }
           } else {
             Future.microtask(
                 () => Navigator.pushReplacementNamed(context, "/Login"));
