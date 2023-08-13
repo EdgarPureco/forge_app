@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:forge_app/providers/supplies_provider.dart';
 import 'package:forge_app/routes/app_routes.dart';
 import 'package:forge_app/screens/homeScreen.dart';
 import 'package:forge_app/screens/loginScreen.dart';
@@ -21,6 +22,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => ProductsProvider()),
+        ChangeNotifierProvider(create: (context) => SuppliesProvider()),
       ],
       child: MaterialApp(
         title: 'Forge App',

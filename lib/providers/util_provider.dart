@@ -18,7 +18,7 @@ class UtilProvider extends ChangeNotifier {
   }
 
 
-  Future responseHttp({required String urlBase}) async {
+  Future getHttp({required String urlBase}) async {
     await getToken();
     var headers = {
       'Content-Type': 'application/json',
@@ -39,8 +39,47 @@ class UtilProvider extends ChangeNotifier {
       Uri.parse(urlBase),
       headers: headers,
     );
+    
     return response;
   }
+  
+  Future postHttp({required String urlBase, required dynamic data}) async {
+  await getToken();
+  var headers = {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer $token' 
+  };
+  var jsonData = jsonEncode(data);
+  var response = await http.post(
+    Uri.parse(urlBase),
+    headers: headers,
+    body: jsonData,
+  );
+
+  print(jsonData);
+
+  return response;
+}
+  
+  
+  Future puttHttp({required String urlBase, required dynamic data}) async {
+  await getToken();
+  var headers = {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer $token' 
+  };
+  var jsonData = jsonEncode(data);
+  var response = await http.put(
+    Uri.parse(urlBase),
+    headers: headers,
+    body: jsonData,
+  );
+
+  print(jsonData);
+
+  return response;
+}
+
 
   Future login(
       {required String urlBase,

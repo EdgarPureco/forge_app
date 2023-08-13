@@ -4,6 +4,9 @@ class Product {
   final String name;
   final String description;
   final String category;
+  final String width;
+  final String length;
+  final String height;
   final double price;
   final String image;
 
@@ -12,6 +15,9 @@ class Product {
     this.name,
     this.description,
     this.category,
+    this.width,
+    this.length,
+    this.height,
     this.price,
     this.image,
   );
@@ -21,6 +27,9 @@ class Product {
         name = json['name'],
         description = json['description'],
         category = json['category'],
+        width = json['width'],
+        length = json['length'],
+        height = json['height'],
         price = json['price'],
         image = json['image']
         ;
@@ -30,6 +39,9 @@ class Product {
         'name': name,
         'description': description,
         'category': category,
+        'width': width,
+        'height': height,
+        'length': length,
         'price': price,
         'image': image,
       };

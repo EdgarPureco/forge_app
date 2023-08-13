@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:forge_app/providers/products_provider.dart';
 import 'package:forge_app/screens/detailScreen.dart';
 import 'package:forge_app/shared/env.dart';
+import 'package:forge_app/widgets/topBar.dart';
 import 'package:provider/provider.dart';
 import 'package:another_flushbar/flushbar.dart';
 
@@ -48,34 +49,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Icon(
-                          Icons.person,
-                          size: 30,
-                        ),
-                        Container(
-                          height: 35,
-                          width: MediaQuery.of(context).size.width * 0.65,
-                          child: TextField(
-                            decoration: InputDecoration(
-                                prefixIcon: const Icon(Icons.search),
-                                hintText: "Search",
-                                alignLabelWithHint: true,
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10))),
-                          ),
-                        ),
-                        const Badge(
-                          label: Text("1"),
-                          child: Icon(
-                            Icons.shopping_bag,
-                            size: 30,
-                          ),
-                        ),
-                      ],
-                    ),
+                    TopBar(),
+                      // FIN TOPBAR
                     Padding(
                       padding: const EdgeInsets.only(top: 15),
                       child: TabBar(

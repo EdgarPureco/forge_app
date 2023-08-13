@@ -1,31 +1,31 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:forge_app/models/product.dart';
+import 'package:forge_app/models/supply.dart';
 import '../providers/util_provider.dart';
 
-class ProductsProvider extends ChangeNotifier {
+class SuppliesProvider extends ChangeNotifier {
   final String _urlBase = 'http://localhost:5088/api/';
 
-  ProductsProvider() {
-    getProducts();
+  SuppliesProvider() {
+    getSupplies();
   }
 
-  List<dynamic> products = [];
-  dynamic product;
+  List<dynamic> supplies = [];
+  dynamic supply;
   List<dynamic> doors = [];
   List<dynamic> windows = [];
   List<dynamic> pots = [];
 
-  Future getProducts() async {
-    final String url = '${_urlBase}products';
+  Future getSupplies() async {
+    final String url = '${_urlBase}supplies';
     final response = await UtilProvider.rtp.getHttp(urlBase: url);
 
     if (response.statusCode == 200) {
       var jResponse = jsonDecode(response.body);
-      products = jResponse;
+      supplies = jResponse;
       notifyListeners();
     }
-    products.forEach((element) {
+    supplies.forEach((element) {
       switch (element['category']) {
         case 'Window Frames':
           windows.add(element);
@@ -42,23 +42,23 @@ class ProductsProvider extends ChangeNotifier {
     });
   }
 
-  Future getProduct(String id) async {
-    final String url = '${_urlBase}products/$id';
+  Future getSupply(String id) async {
+    final String url = '${_urlBase}supplies/$id';
     final response = await UtilProvider.rtp.getHttp(urlBase: url);
 
     if (response.statusCode == 200) {
       var jResponse = jsonDecode(response.body);
-      product = Product.fromJson(jResponse);
+      supply = Supply.fromJson(jResponse);
       notifyListeners();
     }
   }
 
-  Future deleteProduct(String id) async {
-    final String url = '${_urlBase}products/$id';
+  Future deleteSupply(String id) async {
+    final String url = '${_urlBase}supplies/$id';
     final response = await UtilProvider.rtp.deleteHttp(urlBase: url);
     if (response.statusCode == 204) {
 
-      getProducts();
+      getSupplies();
       notifyListeners();
       return true;
     }
@@ -66,13 +66,13 @@ class ProductsProvider extends ChangeNotifier {
     return false;
   }
   
-  Future updateProduct(String id, Product product) async {
-    final String url = '${_urlBase}products/$id';
-    final response = await UtilProvider.rtp.puttHttp(urlBase: url, data: product);
+  Future updateSupply(String id, Supply supply) async {
+    final String url = '${_urlBase}supplies/$id';
+    final response = await UtilProvider.rtp.puttHttp(urlBase: url, data: supply);
     print(response.statusCode);
     if (response.statusCode == 204) {
 
-      getProducts();
+      getSupplies();
       notifyListeners();
       return true;
     }

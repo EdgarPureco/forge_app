@@ -14,20 +14,18 @@ class CheckSesionScreen extends StatelessWidget {
         future: UtilProvider.rtp.checkSession(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (!snapshot.hasData) {
-            return Container(
-              width: double.infinity,
-              height: MediaQuery.of(context).size.height / 3,
-              child: Image.asset('assets/logo.png'),
-            );
+            Future.microtask(
+                () => Navigator.pushReplacementNamed(context, "/Login"));
           }
 
           if (snapshot.data == 1) {
+            print(storage.read(key: 'role') == 'customer');
             if(storage.read(key: 'role') == 'customer'){
               Future.microtask(
                 () => Navigator.pushReplacementNamed(context, "/Home"));
             }else{
               Future.microtask(
-                () => Navigator.pushReplacementNamed(context, "/admin/Products"));
+                () => Navigator.pushReplacementNamed(context, "/Admin/Products"));
             }
           } else {
             Future.microtask(

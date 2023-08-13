@@ -13,6 +13,12 @@ class GlobalData {
 
   static var textGrey18 = appStyleHeight(18, Colors.grey, FontWeight.bold, 1.5 );
 
+  static var textWhite10 = appStyle(10, Colors.white, FontWeight.bold);
+  static var textWhite14 = appStyle(14, Colors.white, FontWeight.bold);
+  static var textWhite16 = appStyle(16, Colors.white, FontWeight.bold);
+  static var textWhite18 = appStyle(18, Colors.white, FontWeight.bold);
+  static var textWhite20 = appStyle(20, Colors.white, FontWeight.bold);
+  static var textWhite22 = appStyle(22, Colors.white, FontWeight.bold);
   static var textWhite24 = appStyle(24, Colors.white, FontWeight.bold);
   static var textWhite42Ht = appStyleHeight(42, Colors.white, FontWeight.bold, 1.5 );
   static var textWhite36Ht = appStyleHeight(36, Colors.white, FontWeight.bold, 1.1 );
