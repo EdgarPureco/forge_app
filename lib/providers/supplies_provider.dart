@@ -25,21 +25,7 @@ class SuppliesProvider extends ChangeNotifier {
       supplies = jResponse;
       notifyListeners();
     }
-    supplies.forEach((element) {
-      switch (element['category']) {
-        case 'Window Frames':
-          windows.add(element);
-          break;
-        case 'Door Frames':
-          doors.add(element);
-          break;
-        case 'Pots':
-          pots.add(element);
-          break;
-        default:
-          null;
-      }
-    });
+
   }
 
   Future getSupply(String id) async {

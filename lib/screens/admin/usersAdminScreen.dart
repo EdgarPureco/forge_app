@@ -1,48 +1,48 @@
 import 'package:flutter/material.dart';
-import 'package:forge_app/models/supplier.dart';
-import 'package:forge_app/providers/suppliers_provider.dart';
+import 'package:forge_app/models/user.dart';
+import 'package:forge_app/providers/users_provider.dart';
 import 'package:forge_app/widgets/topBarAdmin.dart';
 import 'package:provider/provider.dart';
 import 'package:another_flushbar/flushbar.dart';
 
-class SuppliersAdminScreen extends StatefulWidget {
-  const SuppliersAdminScreen({super.key});
+class UsersAdminScreen extends StatefulWidget {
+  const UsersAdminScreen({super.key});
 
   @override
-  State<SuppliersAdminScreen> createState() => _SuppliersAdminScreenState();
+  State<UsersAdminScreen> createState() => _UsersAdminScreenState();
 }
 
-class _SuppliersAdminScreenState extends State<SuppliersAdminScreen> {
+class _UsersAdminScreenState extends State<UsersAdminScreen> {
   void initState() {
-    Provider.of<SuppliersProvider>(context, listen: false).getSuppliers();
+    Provider.of<UsersProvider>(context, listen: false).getUsers();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final supplierProvider = Provider.of<SuppliersProvider>(context);
-    List suppliers = supplierProvider.suppliers;
-
+    final userProvider = Provider.of<UsersProvider>(context);
+    List users = userProvider.users;
+    print(users);
     return Scaffold(
       appBar: TopBarAdmin(),
       endDrawer: SideMenu(),
-      body: SupplierList(
-        suppliers: suppliers,
+      body: UserList(
+        users: users,
       ),
     );
   }
 }
 
-class SupplierList extends StatefulWidget {
-  final List suppliers;
+class UserList extends StatefulWidget {
+  final List users;
 
-  SupplierList({required this.suppliers});
+  UserList({required this.users});
 
   @override
-  _SupplierListState createState() => _SupplierListState();
+  _UserListState createState() => _UserListState();
 }
 
-class _SupplierListState extends State<SupplierList> {
+class _UserListState extends State<UserList> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -51,23 +51,21 @@ class _SupplierListState extends State<SupplierList> {
         showBottomBorder: true,
         columns: const [
           DataColumn(label: Text('ID')),
-          DataColumn(label: Text('Name')),
           DataColumn(label: Text('Email')),
           DataColumn(label: Text('Phone')),
           DataColumn(label: Text('Options')),
         ],
-        rows: widget.suppliers.map((supplier) {
+        rows: widget.users.map((user) {
           return DataRow(
             cells: [
-              DataCell(Text(supplier['id'].toString())),
-              DataCell(Text(supplier['name'])),
-              DataCell(Text(supplier['email'])),
-              DataCell(Text(supplier['phone'])),
+              DataCell(Text(user['id'].toString())),
+              DataCell(Text(user['email'])),
+              DataCell(Text(user['role'])),
               DataCell(Row(
                 children: [
                   IconButton(
                     onPressed: () {
-                      _showEditSupplierModal(context, supplier);
+                      _showEditUserModal(context, user);
                     },
                     icon: const Icon(Icons.edit),
                   ),
@@ -75,7 +73,7 @@ class _SupplierListState extends State<SupplierList> {
                     icon: const Icon(Icons.delete),
                     onPressed: () {
                       _showDeleteConfirmationModal(
-                          context, supplier['id'].toString());
+                          context, user['id'].toString());
                     },
                   ),
                 ],
@@ -87,13 +85,13 @@ class _SupplierListState extends State<SupplierList> {
     );
   }
 
-  void _showEditSupplierModal(BuildContext context, supplier) {
-    supplier = Supplier.fromJson(supplier);
+  void _showEditUserModal(BuildContext context, user) {
+    user = User.fromJson(user);
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
-        return EditSupplierModal(
-          supplier: supplier,
+        return EditUserModal(
+          user: user,
           context: context,
         );
       },
@@ -101,8 +99,8 @@ class _SupplierListState extends State<SupplierList> {
   }
 
   void _showDeleteConfirmationModal(BuildContext context, String id) {
-    final supplierProvider =
-        Provider.of<SuppliersProvider>(context, listen: false);
+    final userProvider =
+        Provider.of<UsersProvider>(context, listen: false);
 
     showDialog(
       context: context,
@@ -110,7 +108,7 @@ class _SupplierListState extends State<SupplierList> {
         return AlertDialog(
           contentPadding:
               const EdgeInsets.only(right: 90, left: 90, top: 20, bottom: 30),
-          title: const Text('Delete Supplier'),
+          title: const Text('Delete User'),
           content: const Text('Are you sure you want to proceed?'),
           actions: [
             ElevatedButton.icon(
@@ -121,7 +119,7 @@ class _SupplierListState extends State<SupplierList> {
               icon: Icon(Icons.done, color: Colors.white,),
               onPressed: () {
                 Navigator.of(context).pop();
-                supplierProvider.deleteSupplier(id).then((value) => {
+                userProvider.deleteUser(id).then((value) => {
                       if (value)
                         {
                           Flushbar(
@@ -170,25 +168,24 @@ class _SupplierListState extends State<SupplierList> {
   }
 }
 
-class EditSupplierModal extends StatefulWidget {
-  final Supplier supplier;
+class EditUserModal extends StatefulWidget {
+  final User user;
   final BuildContext context;
 
-  EditSupplierModal({required this.supplier, required this.context});
+  EditUserModal({required this.user, required this.context});
 
   @override
-  _EditSupplierModalState createState() => _EditSupplierModalState();
+  _EditUserModalState createState() => _EditUserModalState();
 }
 
-class _EditSupplierModalState extends State<EditSupplierModal> {
-  String newName = '';
+class _EditUserModalState extends State<EditUserModal> {
   String newEmail = '';
-  String newPhone= '';
+  String newRole= '';
 
   @override
   Widget build(BuildContext context) {
-    final supplierProvider =
-        Provider.of<SuppliersProvider>(widget.context, listen: false);
+    final userProvider =
+        Provider.of<UsersProvider>(widget.context, listen: false);
     return SingleChildScrollView(
       child: Container(
         padding:
@@ -198,22 +195,12 @@ class _EditSupplierModalState extends State<EditSupplierModal> {
           mainAxisSize: MainAxisSize.min,
           children: [
             const Text(
-              'Edit Supplier',
+              'Edit User',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
             TextFormField(
-              initialValue: widget.supplier.name,
-              onChanged: (newValue) {
-                setState(() {
-                  newName = newValue;
-                });
-              },
-              decoration: const InputDecoration(labelText: 'Name'),
-            ),
-            const SizedBox(height: 16),
-            TextFormField(
-              initialValue: widget.supplier.email,
+              initialValue: widget.user.email,
               onChanged: (newValue) {
                 setState(() {
                   newEmail = newValue;
@@ -223,10 +210,10 @@ class _EditSupplierModalState extends State<EditSupplierModal> {
             ),
             const SizedBox(height: 16),
             TextFormField(
-              initialValue: widget.supplier.phone,
+              initialValue: widget.user.role,
               onChanged: (newValue) {
                 setState(() {
-                  newPhone= newValue;
+                  newRole= newValue;
                 });
               },
               decoration: const InputDecoration(labelText: 'Phone'),
@@ -240,18 +227,17 @@ class _EditSupplierModalState extends State<EditSupplierModal> {
               icon: Icon(Icons.save, color: Colors.white,),
               onPressed: () {
                 if (_dataHasChanged()) {
-                  Supplier newSupplier = Supplier(
-                    widget.supplier.id,
-                    newName.isNotEmpty ? newName : widget.supplier.name,
+                  User newUser = User(
+                    widget.user.id,
                     newEmail.isNotEmpty
                         ? newEmail
-                        : widget.supplier.email,
-                    newPhone.isNotEmpty
-                        ? newPhone
-                        : widget.supplier.phone,
+                        : widget.user.email,
+                    newRole.isNotEmpty
+                        ? newRole
+                        : widget.user.role,
                   );
-                  supplierProvider
-                      .updateSupplier(newSupplier.id.toString(), newSupplier)
+                  userProvider
+                      .updateUser(newUser.id.toString(), newUser)
                       .then((value) => {
                             if (value)
                               {
@@ -293,8 +279,7 @@ class _EditSupplierModalState extends State<EditSupplierModal> {
   }
 
   bool _dataHasChanged() {
-    return newName.isNotEmpty ||
-        newEmail.isNotEmpty ||
-        newPhone.isNotEmpty;
+    return newEmail.isNotEmpty ||
+        newRole.isNotEmpty;
   }
 }

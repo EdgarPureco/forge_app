@@ -1,49 +1,49 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:forge_app/models/supplier.dart';
+import 'package:forge_app/models/user.dart';
 import '../providers/util_provider.dart';
 
-class SuppliersProvider extends ChangeNotifier {
+class UsersProvider extends ChangeNotifier {
   final String _urlBase = 'http://localhost:5088/api/';
 
-  SuppliersProvider() {
-    getSuppliers();
+  UsersProvider() {
+    getUsers();
   }
 
-  List<dynamic> suppliers = [];
-  dynamic supplier;
+  List<dynamic> users = [];
+  dynamic user;
   List<dynamic> doors = [];
   List<dynamic> windows = [];
   List<dynamic> pots = [];
 
-  Future getSuppliers() async {
-    final String url = '${_urlBase}suppliers';
+  Future getUsers() async {
+    final String url = '${_urlBase}users';
     final response = await UtilProvider.rtp.getHttp(urlBase: url);
 
     if (response.statusCode == 200) {
       var jResponse = jsonDecode(response.body);
-      suppliers = jResponse;
+      users = jResponse;
       notifyListeners();
     }
   }
 
-  Future getSupplier(String id) async {
-    final String url = '${_urlBase}suppliers/$id';
+  Future getUser(String id) async {
+    final String url = '${_urlBase}users/$id';
     final response = await UtilProvider.rtp.getHttp(urlBase: url);
 
     if (response.statusCode == 200) {
       var jResponse = jsonDecode(response.body);
-      supplier = Supplier.fromJson(jResponse);
+      user = User.fromJson(jResponse);
       notifyListeners();
     }
   }
 
-  Future deleteSupplier(String id) async {
-    final String url = '${_urlBase}suppliers/$id';
+  Future deleteUser(String id) async {
+    final String url = '${_urlBase}users/$id';
     final response = await UtilProvider.rtp.deleteHttp(urlBase: url);
     if (response.statusCode == 204) {
 
-      getSuppliers();
+      getUsers();
       notifyListeners();
       return true;
     }
@@ -51,13 +51,13 @@ class SuppliersProvider extends ChangeNotifier {
     return false;
   }
   
-  Future updateSupplier(String id, Supplier supplier) async {
-    final String url = '${_urlBase}suppliers/$id';
-    final response = await UtilProvider.rtp.puttHttp(urlBase: url, data: supplier);
+  Future updateUser(String id, User user) async {
+    final String url = '${_urlBase}users/$id';
+    final response = await UtilProvider.rtp.puttHttp(urlBase: url, data: user);
     print(response.statusCode);
     if (response.statusCode == 204) {
 
-      getSuppliers();
+      getUsers();
       notifyListeners();
       return true;
     }
