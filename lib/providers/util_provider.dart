@@ -56,8 +56,6 @@ class UtilProvider extends ChangeNotifier {
     body: jsonData,
   );
 
-  print(jsonData);
-
   return response;
 }
   
@@ -74,8 +72,6 @@ class UtilProvider extends ChangeNotifier {
     headers: headers,
     body: jsonData,
   );
-
-  print(jsonData);
 
   return response;
 }

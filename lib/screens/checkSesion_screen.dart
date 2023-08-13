@@ -19,7 +19,6 @@ class CheckSesionScreen extends StatelessWidget {
           }
 
           if (snapshot.data == 1) {
-            print(storage.read(key: 'role') == 'customer');
             if(storage.read(key: 'role') == 'customer'){
               Future.microtask(
                 () => Navigator.pushReplacementNamed(context, "/Home"));

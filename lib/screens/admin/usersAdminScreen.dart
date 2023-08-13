@@ -22,7 +22,6 @@ class _UsersAdminScreenState extends State<UsersAdminScreen> {
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UsersProvider>(context);
     List users = userProvider.users;
-    print(users);
     return Scaffold(
       appBar: TopBarAdmin(),
       endDrawer: SideMenu(),
