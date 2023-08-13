@@ -99,8 +99,7 @@ class _UserListState extends State<UserList> {
   }
 
   void _showDeleteConfirmationModal(BuildContext context, String id) {
-    final userProvider =
-        Provider.of<UsersProvider>(context, listen: false);
+    final userProvider = Provider.of<UsersProvider>(context, listen: false);
 
     showDialog(
       context: context,
@@ -116,7 +115,10 @@ class _UserListState extends State<UserList> {
                 backgroundColor: MaterialStatePropertyAll<Color>(Colors.black),
               ),
               label: Text('Accept'),
-              icon: Icon(Icons.done, color: Colors.white,),
+              icon: Icon(
+                Icons.done,
+                color: Colors.white,
+              ),
               onPressed: () {
                 Navigator.of(context).pop();
                 userProvider.deleteUser(id).then((value) => {
@@ -149,18 +151,23 @@ class _UserListState extends State<UserList> {
                     });
               },
             ),
-
             ElevatedButton.icon(
               style: ButtonStyle(
-                backgroundColor: MaterialStatePropertyAll<Color>(Colors.white70),
+                backgroundColor:
+                    MaterialStatePropertyAll<Color>(Colors.white70),
               ),
-              label: Text('Cancel', style: TextStyle(color: Colors.black),),
+              label: Text(
+                'Cancel',
+                style: TextStyle(color: Colors.black),
+              ),
               onPressed: () {
                 Navigator.of(context).pop(); // Cerrar el diálogo
               },
-              icon: Icon(Icons.do_disturb, color: Colors.black,),
+              icon: Icon(
+                Icons.do_disturb,
+                color: Colors.black,
+              ),
             ),
-            
           ],
         );
       },
@@ -180,7 +187,7 @@ class EditUserModal extends StatefulWidget {
 
 class _EditUserModalState extends State<EditUserModal> {
   String newEmail = '';
-  String newRole= '';
+  String newRole = '';
 
   @override
   Widget build(BuildContext context) {
@@ -209,14 +216,27 @@ class _EditUserModalState extends State<EditUserModal> {
               decoration: const InputDecoration(labelText: 'Email'),
             ),
             const SizedBox(height: 16),
-            TextFormField(
-              initialValue: widget.user.role,
+            DropdownButton<String>(
+              value: _dataHasChanged() ? newRole : widget.user.role,
               onChanged: (newValue) {
                 setState(() {
-                  newRole= newValue;
+                  newRole = newValue ?? 'admin';
                 });
               },
-              decoration: const InputDecoration(labelText: 'Phone'),
+              items: const [
+                DropdownMenuItem<String>(
+                  value: 'admin',
+                  child: Text('Admin'),
+                ),
+                DropdownMenuItem<String>(
+                  value: 'seller',
+                  child: Text('Seller'),
+                ),
+                DropdownMenuItem<String>(
+                  value: 'stocker',
+                  child: Text('Stocker'),
+                ),
+              ],
             ),
             const SizedBox(height: 16),
             ElevatedButton.icon(
@@ -224,17 +244,16 @@ class _EditUserModalState extends State<EditUserModal> {
                 backgroundColor: MaterialStatePropertyAll<Color>(Colors.black),
               ),
               label: Text('Save'),
-              icon: Icon(Icons.save, color: Colors.white,),
+              icon: Icon(
+                Icons.save,
+                color: Colors.white,
+              ),
               onPressed: () {
                 if (_dataHasChanged()) {
                   User newUser = User(
                     widget.user.id,
-                    newEmail.isNotEmpty
-                        ? newEmail
-                        : widget.user.email,
-                    newRole.isNotEmpty
-                        ? newRole
-                        : widget.user.role,
+                    newEmail.isNotEmpty ? newEmail : widget.user.email,
+                    newRole.isNotEmpty ? newRole : widget.user.role,
                   );
                   userProvider
                       .updateUser(newUser.id.toString(), newUser)
@@ -279,7 +298,6 @@ class _EditUserModalState extends State<EditUserModal> {
   }
 
   bool _dataHasChanged() {
-    return newEmail.isNotEmpty ||
-        newRole.isNotEmpty;
+    return newEmail.isNotEmpty || newRole.isNotEmpty;
   }
 }

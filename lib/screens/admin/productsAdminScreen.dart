@@ -132,7 +132,10 @@ class _ProductListState extends State<ProductList> {
                 backgroundColor: MaterialStatePropertyAll<Color>(Colors.black),
               ),
               label: Text('Accept'),
-              icon: Icon(Icons.done, color: Colors.white,),
+              icon: Icon(
+                Icons.done,
+                color: Colors.white,
+              ),
               onPressed: () {
                 Navigator.of(context).pop();
                 productProvider.deleteProduct(id).then((value) => {
@@ -165,18 +168,23 @@ class _ProductListState extends State<ProductList> {
                     });
               },
             ),
-
             ElevatedButton.icon(
               style: ButtonStyle(
-                backgroundColor: MaterialStatePropertyAll<Color>(Colors.white70),
+                backgroundColor:
+                    MaterialStatePropertyAll<Color>(Colors.white70),
               ),
-              label: Text('Cancel', style: TextStyle(color: Colors.black),),
+              label: Text(
+                'Cancel',
+                style: TextStyle(color: Colors.black),
+              ),
               onPressed: () {
                 Navigator.of(context).pop(); // Cerrar el diálogo
               },
-              icon: Icon(Icons.do_disturb, color: Colors.black,),
+              icon: Icon(
+                Icons.do_disturb,
+                color: Colors.black,
+              ),
             ),
-            
           ],
         );
       },
@@ -252,14 +260,31 @@ class _EditProductModalState extends State<EditProductModal> {
               decoration: const InputDecoration(labelText: 'Description'),
             ),
             const SizedBox(height: 16),
-            TextFormField(
-              initialValue: widget.product.category,
+            DropdownButton<String>(
+              value: _dataHasChanged() ? newCategory : _getSelectedCategory(),
               onChanged: (newValue) {
                 setState(() {
-                  newCategory = newValue;
+                  newCategory = newValue ?? _getSelectedCategory() ;
                 });
               },
-              decoration: const InputDecoration(labelText: 'Category'),
+              items: const [
+                DropdownMenuItem<String>(
+                  value: 'Door Frames',
+                  child: Text('Door Frames'),
+                ),
+                DropdownMenuItem<String>(
+                  value: 'Window Frames',
+                  child: Text('Window Frames'),
+                ),
+                DropdownMenuItem<String>(
+                  value: 'Window Protections',
+                  child: Text('Window Protections'),
+                ),
+                DropdownMenuItem<String>(
+                  value: 'Pots Stands',
+                  child: Text('Pots Stands'),
+                ),
+              ],
             ),
             const SizedBox(height: 16),
             TextFormField(
@@ -295,7 +320,10 @@ class _EditProductModalState extends State<EditProductModal> {
                 backgroundColor: MaterialStatePropertyAll<Color>(Colors.black),
               ),
               label: Text('Save'),
-              icon: Icon(Icons.save, color: Colors.white,),
+              icon: Icon(
+                Icons.save,
+                color: Colors.white,
+              ),
               onPressed: () {
                 if (_dataHasChanged()) {
                   Product newProduct = Product(
@@ -364,4 +392,16 @@ class _EditProductModalState extends State<EditProductModal> {
         newHeight.isNotEmpty ||
         newPrice != 0.0;
   }
+
+  String _getSelectedCategory() {
+  if (widget.product.category == 'Door Frames' ||
+      widget.product.category == 'Window Frames' ||
+      widget.product.category == 'Window Protections' ||
+      widget.product.category == 'Pots Stands') {
+    return widget.product.category;
+  } else {
+    return 'Door Frames'; // Selecciona la primera categoría por defecto
+  }
+}
+
 }

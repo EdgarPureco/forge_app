@@ -53,7 +53,25 @@ class UsersProvider extends ChangeNotifier {
   
   Future updateUser(String id, User user) async {
     final String url = '${_urlBase}users/$id';
-    final response = await UtilProvider.rtp.puttHttp(urlBase: url, data: user);
+    var roleId = 0;
+    switch (user.role) {
+      case 'admin':
+        roleId = 1;
+        break;
+      case 'seller':
+        roleId = 2;
+        break;
+      case 'stocker':
+        roleId = 3;
+        break;
+    }
+
+    var data = {
+      'email': user.email,
+      'roleId': roleId
+    };
+    
+    final response = await UtilProvider.rtp.puttHttp(urlBase: url, data: data);
     print(response.statusCode);
     if (response.statusCode == 204) {
 
