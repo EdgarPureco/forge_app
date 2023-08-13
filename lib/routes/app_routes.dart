@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:forge_app/screens/admin/productsAdminScreen.dart';
+import 'package:forge_app/screens/admin/suppliersAdminScreen.dart';
 import 'package:forge_app/screens/admin/suppliesAdminScreen.dart';
 import 'package:forge_app/screens/cartScreen.dart';
 import 'package:forge_app/screens/checkSesion_screen.dart';
@@ -20,7 +21,7 @@ class AppRoutes {
 
     '/Admin/Products': (BuildContext context) => const ProductsAdminScreen(),
     '/Admin/Supplies': (BuildContext context) => const SuppliesAdminScreen(),
-    // '/Admin/Suppliers': (BuildContext context) => const SuppliersAdminScreen(),
+    '/Admin/Suppliers': (BuildContext context) => const SuppliersAdminScreen(),
     // '/Admin/Users': (BuildContext context) => const UsersAdminScreen(),
     // '/Admin/Customers': (BuildContext context) => const CustomersAdminScreen(),
   };

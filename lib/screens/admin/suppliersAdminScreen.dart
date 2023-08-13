@@ -1,50 +1,49 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:forge_app/models/product.dart';
-import 'package:forge_app/providers/products_provider.dart';
+import 'package:forge_app/models/supplier.dart';
+import 'package:forge_app/providers/suppliers_provider.dart';
 import 'package:forge_app/widgets/topBarAdmin.dart';
 import 'package:provider/provider.dart';
 import 'package:another_flushbar/flushbar.dart';
 
-class ProductsAdminScreen extends StatefulWidget {
-  const ProductsAdminScreen({super.key});
+class SuppliersAdminScreen extends StatefulWidget {
+  const SuppliersAdminScreen({super.key});
 
   @override
-  State<ProductsAdminScreen> createState() => _ProductsAdminScreenState();
+  State<SuppliersAdminScreen> createState() => _SuppliersAdminScreenState();
 }
 
-class _ProductsAdminScreenState extends State<ProductsAdminScreen> {
+class _SuppliersAdminScreenState extends State<SuppliersAdminScreen> {
   void initState() {
-    Provider.of<ProductsProvider>(context, listen: false).getProducts();
+    Provider.of<SuppliersProvider>(context, listen: false).getSuppliers();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final productProvider = Provider.of<ProductsProvider>(context);
-    List products = productProvider.products;
+    final supplierProvider = Provider.of<SuppliersProvider>(context);
+    List suppliers = supplierProvider.suppliers;
 
     return Scaffold(
       appBar: TopBarAdmin(),
       endDrawer: SideMenu(),
-      body: ProductList(
-        products: products,
+      body: SupplierList(
+        suppliers: suppliers,
       ),
     );
   }
 }
 
-class ProductList extends StatefulWidget {
-  final List products;
+class SupplierList extends StatefulWidget {
+  final List suppliers;
 
-  ProductList({required this.products});
+  SupplierList({required this.suppliers});
 
   @override
-  _ProductListState createState() => _ProductListState();
+  _SupplierListState createState() => _SupplierListState();
 }
 
-class _ProductListState extends State<ProductList> {
+class _SupplierListState extends State<SupplierList> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -54,33 +53,22 @@ class _ProductListState extends State<ProductList> {
         columns: const [
           DataColumn(label: Text('ID')),
           DataColumn(label: Text('Name')),
-          DataColumn(label: Text('Price')),
-          DataColumn(label: Text('Description')),
-          DataColumn(label: Text('Category')),
-          DataColumn(label: Text('Mesures')),
+          DataColumn(label: Text('Email')),
+          DataColumn(label: Text('Phone')),
           DataColumn(label: Text('Options')),
-          DataColumn(label: Text('Image')),
         ],
-        rows: widget.products.map((product) {
+        rows: widget.suppliers.map((supplier) {
           return DataRow(
             cells: [
-              DataCell(Text(product['id'].toString())),
-              DataCell(Text(product['name'])),
-              DataCell(Text('\$${product['price'].toStringAsFixed(2)}')),
-              DataCell(Text(product['description'])),
-              DataCell(Text(product['category'])),
-              DataCell(Column(
-                children: [
-                  Text('Width: ' + product['width']),
-                  Text('Length: ' + product['length']),
-                  Text('Height: ' + product['height']),
-                ],
-              )),
+              DataCell(Text(supplier['id'].toString())),
+              DataCell(Text(supplier['name'])),
+              DataCell(Text(supplier['email'])),
+              DataCell(Text(supplier['phone'])),
               DataCell(Row(
                 children: [
                   IconButton(
                     onPressed: () {
-                      _showEditProductModal(context, product);
+                      _showEditSupplierModal(context, supplier);
                     },
                     icon: const Icon(Icons.edit),
                   ),
@@ -88,12 +76,11 @@ class _ProductListState extends State<ProductList> {
                     icon: const Icon(Icons.delete),
                     onPressed: () {
                       _showDeleteConfirmationModal(
-                          context, product['id'].toString());
+                          context, supplier['id'].toString());
                     },
                   ),
                 ],
               )),
-              DataCell(Image.memory(base64.decode(product['image']))),
             ],
           );
         }).toList(),
@@ -101,13 +88,13 @@ class _ProductListState extends State<ProductList> {
     );
   }
 
-  void _showEditProductModal(BuildContext context, product) {
-    product = Product.fromJson(product);
+  void _showEditSupplierModal(BuildContext context, supplier) {
+    supplier = Supplier.fromJson(supplier);
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
-        return EditProductModal(
-          product: product,
+        return EditSupplierModal(
+          supplier: supplier,
           context: context,
         );
       },
@@ -115,8 +102,8 @@ class _ProductListState extends State<ProductList> {
   }
 
   void _showDeleteConfirmationModal(BuildContext context, String id) {
-    final productProvider =
-        Provider.of<ProductsProvider>(context, listen: false);
+    final supplierProvider =
+        Provider.of<SuppliersProvider>(context, listen: false);
 
     showDialog(
       context: context,
@@ -124,7 +111,7 @@ class _ProductListState extends State<ProductList> {
         return AlertDialog(
           contentPadding:
               const EdgeInsets.only(right: 90, left: 90, top: 20, bottom: 30),
-          title: const Text('Delete Product'),
+          title: const Text('Delete Supplier'),
           content: const Text('Are you sure you want to proceed?'),
           actions: [
             ElevatedButton.icon(
@@ -135,7 +122,7 @@ class _ProductListState extends State<ProductList> {
               icon: Icon(Icons.done, color: Colors.white,),
               onPressed: () {
                 Navigator.of(context).pop();
-                productProvider.deleteProduct(id).then((value) => {
+                supplierProvider.deleteSupplier(id).then((value) => {
                       if (value)
                         {
                           Flushbar(
@@ -184,29 +171,25 @@ class _ProductListState extends State<ProductList> {
   }
 }
 
-class EditProductModal extends StatefulWidget {
-  final Product product;
+class EditSupplierModal extends StatefulWidget {
+  final Supplier supplier;
   final BuildContext context;
 
-  EditProductModal({required this.product, required this.context});
+  EditSupplierModal({required this.supplier, required this.context});
 
   @override
-  _EditProductModalState createState() => _EditProductModalState();
+  _EditSupplierModalState createState() => _EditSupplierModalState();
 }
 
-class _EditProductModalState extends State<EditProductModal> {
+class _EditSupplierModalState extends State<EditSupplierModal> {
   String newName = '';
-  String newDescription = '';
-  String newCategory = '';
-  String newWidth = '';
-  String newLength = '';
-  String newHeight = '';
-  double newPrice = 0.0;
+  String newEmail = '';
+  String newPhone= '';
 
   @override
   Widget build(BuildContext context) {
-    final productProvider =
-        Provider.of<ProductsProvider>(widget.context, listen: false);
+    final supplierProvider =
+        Provider.of<SuppliersProvider>(widget.context, listen: false);
     return SingleChildScrollView(
       child: Container(
         padding:
@@ -216,12 +199,12 @@ class _EditProductModalState extends State<EditProductModal> {
           mainAxisSize: MainAxisSize.min,
           children: [
             const Text(
-              'Edit Product',
+              'Edit Supplier',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
             TextFormField(
-              initialValue: widget.product.name,
+              initialValue: widget.supplier.name,
               onChanged: (newValue) {
                 setState(() {
                   newName = newValue;
@@ -231,63 +214,23 @@ class _EditProductModalState extends State<EditProductModal> {
             ),
             const SizedBox(height: 16),
             TextFormField(
-              initialValue: widget.product.price.toString(),
+              initialValue: widget.supplier.email,
               onChanged: (newValue) {
                 setState(() {
-                  newPrice = double.parse(newValue);
+                  newEmail = newValue;
                 });
               },
-              keyboardType:
-                  const TextInputType.numberWithOptions(decimal: true),
-              decoration: const InputDecoration(labelText: 'Precio'),
+              decoration: const InputDecoration(labelText: 'Email'),
             ),
             const SizedBox(height: 16),
             TextFormField(
-              initialValue: widget.product.description,
+              initialValue: widget.supplier.phone,
               onChanged: (newValue) {
                 setState(() {
-                  newDescription = newValue;
+                  newPhone= newValue;
                 });
               },
-              decoration: const InputDecoration(labelText: 'Description'),
-            ),
-            const SizedBox(height: 16),
-            TextFormField(
-              initialValue: widget.product.category,
-              onChanged: (newValue) {
-                setState(() {
-                  newCategory = newValue;
-                });
-              },
-              decoration: const InputDecoration(labelText: 'Category'),
-            ),
-            const SizedBox(height: 16),
-            TextFormField(
-              initialValue: widget.product.width,
-              onChanged: (newValue) {
-                setState(() {
-                  newWidth = newValue;
-                });
-              },
-              decoration: const InputDecoration(labelText: 'Width'),
-            ),
-            TextFormField(
-              initialValue: widget.product.length,
-              onChanged: (newValue) {
-                setState(() {
-                  newLength = newValue;
-                });
-              },
-              decoration: const InputDecoration(labelText: 'Length'),
-            ),
-            TextFormField(
-              initialValue: widget.product.height,
-              onChanged: (newValue) {
-                setState(() {
-                  newHeight = newValue;
-                });
-              },
-              decoration: const InputDecoration(labelText: 'Height'),
+              decoration: const InputDecoration(labelText: 'Phone'),
             ),
             const SizedBox(height: 16),
             ElevatedButton.icon(
@@ -298,23 +241,18 @@ class _EditProductModalState extends State<EditProductModal> {
               icon: Icon(Icons.save, color: Colors.white,),
               onPressed: () {
                 if (_dataHasChanged()) {
-                  Product newProduct = Product(
-                    widget.product.id,
-                    newName.isNotEmpty ? newName : widget.product.name,
-                    newDescription.isNotEmpty
-                        ? newDescription
-                        : widget.product.description,
-                    newCategory.isNotEmpty
-                        ? newCategory
-                        : widget.product.category,
-                    newWidth.isNotEmpty ? newWidth : widget.product.width,
-                    newLength.isNotEmpty ? newLength : widget.product.length,
-                    newHeight.isNotEmpty ? newHeight : widget.product.height,
-                    newPrice != 0.0 ? newPrice : widget.product.price,
-                    widget.product.image,
+                  Supplier newSupplier = Supplier(
+                    widget.supplier.id,
+                    newName.isNotEmpty ? newName : widget.supplier.name,
+                    newEmail.isNotEmpty
+                        ? newEmail
+                        : widget.supplier.email,
+                    newPhone.isNotEmpty
+                        ? newPhone
+                        : widget.supplier.phone,
                   );
-                  productProvider
-                      .updateProduct(newProduct.id.toString(), newProduct)
+                  supplierProvider
+                      .updateSupplier(newSupplier.id.toString(), newSupplier)
                       .then((value) => {
                             if (value)
                               {
@@ -357,11 +295,7 @@ class _EditProductModalState extends State<EditProductModal> {
 
   bool _dataHasChanged() {
     return newName.isNotEmpty ||
-        newDescription.isNotEmpty ||
-        newCategory.isNotEmpty ||
-        newWidth.isNotEmpty ||
-        newLength.isNotEmpty ||
-        newHeight.isNotEmpty ||
-        newPrice != 0.0;
+        newEmail.isNotEmpty ||
+        newPhone.isNotEmpty;
   }
 }
