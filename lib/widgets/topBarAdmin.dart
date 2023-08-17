@@ -41,11 +41,9 @@ final storage = const FlutterSecureStorage();
               logOut();
               Navigator.pushReplacementNamed(context, "/Login");
             },
-            child: const Badge(
-              child: Icon(
-                Icons.exit_to_app,
-                size: 30,
-              ),
+            child:  const Icon(
+              Icons.exit_to_app,
+              size: 30,
             ),
           ),
           ],

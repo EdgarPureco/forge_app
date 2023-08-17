@@ -85,11 +85,9 @@ class _DetailScreenState extends State<DetailScreen> {
             onTap: () {
               Navigator.pushReplacementNamed(context, "/Home");
             },
-            child: const Badge(
-              child: Icon(
-                Icons.arrow_back,
-                size: 30,
-              ),
+            child: const Icon(
+              Icons.arrow_back,
+              size: 30,
             ),
           ),
                         const SizedBox(height: 20),
