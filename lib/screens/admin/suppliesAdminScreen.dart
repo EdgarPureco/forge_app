@@ -56,7 +56,7 @@ class _SupplyListState extends State<SupplyList> {
           DataColumn(label: Text('Cost')),
           DataColumn(label: Text('BuyUnit')),
           DataColumn(label: Text('UseUnit')),
-          DataColumn(label: Text('Mesures')),
+          DataColumn(label: Text('Equivalence')),
           DataColumn(label: Text('Options')),
         ],
         rows: widget.supplies.map((supply) {

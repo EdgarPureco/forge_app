@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:forge_app/shared/env.dart';
 
 class TopBar extends StatelessWidget {
 final storage = const FlutterSecureStorage();
@@ -19,25 +20,14 @@ final storage = const FlutterSecureStorage();
               Navigator.pushReplacementNamed(context, '/Cart');
             },
             child: const Badge(
-              label: Text("1"),
+              label: Text("0"),
               child: Icon(
-                Icons.person,
+                Icons.shopping_cart,
                 size: 30,
               ),
             ),
           ),
-          Container(
-            height: 35,
-            width: MediaQuery.of(context).size.width * 0.65,
-            child: TextField(
-              decoration: InputDecoration(
-                  prefixIcon: const Icon(Icons.search),
-                  hintText: "Search",
-                  alignLabelWithHint: true,
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10))),
-            ),
-          ),
+          Text('Iron Works Mexico', style: GlobalData.textBlack16Ht, ),
           GestureDetector(
             onTap: () {
               logOut();

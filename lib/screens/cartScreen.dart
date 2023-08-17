@@ -20,7 +20,7 @@ class _CartScreenState extends State<CartScreen> {
   @override
   Widget build(BuildContext context) {
     final productProvider = Provider.of<ProductsProvider>(context);
-    List cartItems = productProvider.products;
+    List cartItems = [];
 
     if (cartItems.isEmpty) {
       return Scaffold(
@@ -90,94 +90,97 @@ class _CartScreenState extends State<CartScreen> {
         child: Column(
           children: [
             TopBar(),
-            ListView.builder(
-                padding: EdgeInsets.only(top: 50),
-                primary: false,
-                shrinkWrap: true,
-                scrollDirection: Axis.vertical,
-                itemCount: cartItems.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(16, 8, 16, 0),
-                    child: Container(
-                      width: double.infinity,
-                      height: 100,
-                      decoration: BoxDecoration(
-                        color: Colors.black,
-                        boxShadow: [
-                          BoxShadow(
-                            blurRadius: 4,
-                            color: Color(0x320E151B),
-                            offset: Offset(0, 1),
-                          )
-                        ],
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(16, 8, 8, 8),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Hero(
-                              tag: 'ControllerImage',
-                              transitionOnUserGestures: true,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(12),
-                                child: Image.memory(base64.decode(cartItems[index]['image']),
-                                  
-                                  width: 80,
-                                  height: 80,
-                                  fit: BoxFit.fitWidth,
+            SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: ListView.builder(
+                  padding: EdgeInsets.only(top: 50),
+                  primary: false,
+                  shrinkWrap: true,
+                  scrollDirection: Axis.vertical,
+                  itemCount: cartItems.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(16, 8, 16, 0),
+                      child: Container(
+                        width: double.infinity,
+                        height: 100,
+                        decoration: BoxDecoration(
+                          color: Colors.black,
+                          boxShadow: [
+                            BoxShadow(
+                              blurRadius: 4,
+                              color: Color(0x320E151B),
+                              offset: Offset(0, 1),
+                            )
+                          ],
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(16, 8, 8, 8),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Hero(
+                                tag: 'ControllerImage',
+                                transitionOnUserGestures: true,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(12),
+                                  child: Image.memory(base64.decode(cartItems[index]['image']),
+                                    
+                                    width: 80,
+                                    height: 80,
+                                    fit: BoxFit.fitWidth,
+                                  ),
                                 ),
                               ),
-                            ),
-                            Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(12, 0, 0, 0),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding:
-                                        EdgeInsetsDirectional.fromSTEB(0, 0, 0, 8),
-                                    child: Text(
-                                      cartItems[index]['name'],
-                                      style: GlobalData.textWhite20,
+                              Padding(
+                                padding: EdgeInsetsDirectional.fromSTEB(12, 0, 0, 0),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.max,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding:
+                                          EdgeInsetsDirectional.fromSTEB(0, 0, 0, 8),
+                                      child: Text(
+                                        cartItems[index]['name'],
+                                        style: GlobalData.textWhite20,
+                                      ),
                                     ),
-                                  ),
-                                  Text(
-                                    '\$${cartItems[index]['price']}',
-                                    style: GlobalData.textWhite18,
-                                  ),
-                                  Padding(
-                                    padding:
-                                        EdgeInsetsDirectional.fromSTEB(0, 8, 0, 0),
-                                    child: Text(
-                                      'Quanity: ${cartItems[index]['quantity']}',
-                                      style: GlobalData.textWhite16,
+                                    Text(
+                                      '\$${cartItems[index]['price']}',
+                                      style: GlobalData.textWhite18,
                                     ),
-                                  ),
-                                ],
+                                    Padding(
+                                      padding:
+                                          EdgeInsetsDirectional.fromSTEB(0, 8, 0, 0),
+                                      child: Text(
+                                        'Quanity: ${cartItems[index]['quantity']}',
+                                        style: GlobalData.textWhite16,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                            IconButton(
-                              icon: Icon(
-                                Icons.delete,
-                                color: Color(0xFFE86969),
-                                size: 20,
+                              IconButton(
+                                icon: Icon(
+                                  Icons.delete,
+                                  color: Color(0xFFE86969),
+                                  size: 20,
+                                ),
+                                onPressed: () {
+                                  // Remove item
+                                },
                               ),
-                              onPressed: () {
-                                // Remove item
-                              },
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  );
-                }),
+                    );
+                  }),
+            ),
           ],
         ),
       ),

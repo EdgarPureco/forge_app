@@ -56,6 +56,8 @@ class _ProductListState extends State<ProductList> {
           columns: const [
             DataColumn(label: Text('ID')),
             DataColumn(label: Text('Name')),
+            DataColumn(label: Text('Status')),
+            DataColumn(label: Text('Stock')),
             DataColumn(label: Text('Price')),
             DataColumn(label: Text('Description')),
             DataColumn(label: Text('Category')),
@@ -68,6 +70,8 @@ class _ProductListState extends State<ProductList> {
             cells: [
               DataCell(Text(product['id'].toString())),
               DataCell(Text(product['name'])),
+              DataCell(Text(product['inventoryStatus'])),
+              DataCell(Text(product['stock'].toString())),
               DataCell(Text('\$${product['price'].toStringAsFixed(2)}')),
               DataCell(Text(product['description'])),
               DataCell(Text(product['category'])),
@@ -254,7 +258,20 @@ class _EditProductModalState extends State<EditProductModal> {
               },
               keyboardType:
                   const TextInputType.numberWithOptions(decimal: true),
-              decoration: const InputDecoration(labelText: 'Precio'),
+              decoration: const InputDecoration(labelText: 'Price'),
+            ),
+            const SizedBox(height: 16),
+            TextFormField(
+              readOnly: true,
+              initialValue: widget.product.stock.toString(),
+              onChanged: (newValue) {
+                setState(() {
+                  newPrice = double.parse(newValue);
+                });
+              },
+              keyboardType:
+                  const TextInputType.numberWithOptions(decimal: false),
+              decoration: const InputDecoration(labelText: 'Stock'),
             ),
             const SizedBox(height: 16),
             TextFormField(

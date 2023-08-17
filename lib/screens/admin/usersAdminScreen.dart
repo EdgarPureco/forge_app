@@ -51,7 +51,7 @@ class _UserListState extends State<UserList> {
         columns: const [
           DataColumn(label: Text('ID')),
           DataColumn(label: Text('Email')),
-          DataColumn(label: Text('Phone')),
+          DataColumn(label: Text('Role')),
           DataColumn(label: Text('Options')),
         ],
         rows: widget.users.map((user) {
