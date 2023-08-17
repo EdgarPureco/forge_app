@@ -57,16 +57,12 @@ class _DetailScreenState extends State<DetailScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          product.id.toString(),
-                          style: GlobalData.textGrey18,
-                        ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
                               product.name,
-                              style: GlobalData.textBlack30,
+                              style: GlobalData.textBlack22,
                             ),
                             Text(
                               '\$${product.price}',
@@ -79,65 +75,23 @@ class _DetailScreenState extends State<DetailScreen> {
                           product.category,
                           style: GlobalData.textBlack22,
                         ),
-                        const SizedBox(height: 15),
+                        const SizedBox(height: 35),
                         Text(
                           product.description,
                           style: GlobalData.textBlack22,
                         ),
                         const SizedBox(height: 15),
-                        FilledButton.icon(
-                            onPressed: () {
-                              showModalBottomSheet<void>(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return Container(
-                                    height: 200,
-                                    color: Colors.white,
-                                    child: Center(
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceAround,
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: <Widget>[
-                                          const Text('Modal BottomSheet'),
-                                          ElevatedButton(
-                                              child: const Text('Accept'),
-                                              onPressed: () {
-                                                Navigator.pop(context);
-                                                Flushbar(
-                                                  title: "Success",
-                                                  message:
-                                                      "Product Was Deleted",
-                                                  backgroundGradient:
-                                                      LinearGradient(colors: [
-                                                    Colors.blue,
-                                                    Colors.teal
-                                                  ]),
-                                                  backgroundColor: Colors.red,
-                                                  boxShadows: [
-                                                    BoxShadow(
-                                                      color: Colors.red,
-                                                      offset: Offset(0.0, 2.0),
-                                                      blurRadius: 3.0,
-                                                    )
-                                                  ],
-                                                )..show(context);
-                                              }),
-                                          ElevatedButton(
-                                            child:
-                                                const Text('Close BottomSheet'),
-                                            onPressed: () =>
-                                                Navigator.pop(context),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  );
-                                },
-                              );
-                            },
-                            icon: Icon(Icons.remove_red_eye_outlined),
-                            label: Text('Delete')),
+                        GestureDetector(
+            onTap: () {
+              Navigator.pushReplacementNamed(context, "/Home");
+            },
+            child: const Badge(
+              child: Icon(
+                Icons.arrow_back,
+                size: 30,
+              ),
+            ),
+          ),
                         const SizedBox(height: 20),
                       ],
                     ),

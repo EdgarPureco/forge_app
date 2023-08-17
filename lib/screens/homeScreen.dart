@@ -5,6 +5,7 @@ import 'package:forge_app/shared/env.dart';
 import 'package:forge_app/widgets/topBar.dart';
 import 'package:provider/provider.dart';
 import 'package:another_flushbar/flushbar.dart';
+import 'dart:convert';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -64,7 +65,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           tabs: const [
                             Text("Window Frames"),
                             Text("Door Frames"),
-                            Text("Pots"),
+                            Text("Pot Stands"),
                           ]),
                     ),
                   ],
@@ -102,20 +103,24 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                       MediaQuery.of(context).size.height * 0.12,
                                   width:
                                       MediaQuery.of(context).size.width * 0.75,
-                                  child: Column(children: [
-                                    Text(
-                                      windows[index]['name'],
-                                      style: GlobalData.textBlack30,
-                                    ),
-                                    FilledButton.icon(
-                                        onPressed: () {
-                                          Navigator.push(context,
-                                MaterialPageRoute(
-                                    builder: (context) => DetailScreen(id: windows[index]['id'],)));
-                                          },
-                                        icon: const Icon(Icons.remove_red_eye_outlined),
-                                        label: const Text('Details'))
-                                  ]),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(20),
+                                    child: Column(children: [
+                                      Image.memory(base64.decode(windows[index]['image'],)),
+                                      Text(
+                                        windows[index]['name'],
+                                        style: GlobalData.textBlack22,
+                                      ),
+                                      FilledButton.icon(
+                                          onPressed: () {
+                                            Navigator.push(context,
+                                                                  MaterialPageRoute(
+                                      builder: (context) => DetailScreen(id: windows[index]['id'],)));
+                                            },
+                                          icon: const Icon(Icons.remove_red_eye_outlined),
+                                          label: const Text('Details'))
+                                    ]),
+                                  ),
                                 ),
                               );
                             })),
@@ -147,19 +152,24 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                 height:
                                     MediaQuery.of(context).size.height * 0.12,
                                 width: MediaQuery.of(context).size.width * 0.75,
-                                child: Column(children: [
-                                  Text(
-                                    doors[index]['name'],
-                                    style: GlobalData.textWhite24,
+                                child: Padding(
+                                    padding: const EdgeInsets.all(20),
+                                    child: Column(children: [
+                                      Image.memory(base64.decode(doors[index]['image'],)),
+                                      Text(
+                                        doors[index]['name'],
+                                        style: GlobalData.textWhite22,
+                                      ),
+                                      FilledButton.icon(
+                                          onPressed: () {
+                                            Navigator.push(context,
+                                                                  MaterialPageRoute(
+                                      builder: (context) => DetailScreen(id: doors[index]['id'],)));
+                                            },
+                                          icon: const Icon(Icons.remove_red_eye_outlined),
+                                          label: const Text('Details'))
+                                    ]),
                                   ),
-                                  FilledButton.icon(
-                                      onPressed: () {
-                                        Navigator.push(context,
-                                MaterialPageRoute(
-                                    builder: (context) => DetailScreen(id: doors[index]['id'],)));},
-                                      icon: const Icon(Icons.remove_red_eye_outlined),
-                                      label: const Text('Details'))
-                                ]),
                               ),
                             );
                           }),
@@ -192,20 +202,24 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                 height:
                                     MediaQuery.of(context).size.height * 0.12,
                                 width: MediaQuery.of(context).size.width * 0.75,
-                                child: Column(children: [
-                                  Text(
-                                    pots[index]['name'],
-                                    style: GlobalData.textBlack30,
+                                child: Padding(
+                                    padding: const EdgeInsets.all(20),
+                                    child: Column(children: [
+                                      Image.memory(base64.decode(pots[index]['image'],)),
+                                      Text(
+                                        pots[index]['name'],
+                                        style: GlobalData.textBlack22,
+                                      ),
+                                      FilledButton.icon(
+                                          onPressed: () {
+                                            Navigator.push(context,
+                                                                  MaterialPageRoute(
+                                      builder: (context) => DetailScreen(id: pots[index]['id'],)));
+                                            },
+                                          icon: const Icon(Icons.remove_red_eye_outlined),
+                                          label: const Text('Details'))
+                                    ]),
                                   ),
-                                  FilledButton.icon(
-                                      onPressed: () {
-                                        Navigator.push(context,
-                                MaterialPageRoute(
-                                    builder: (context) => DetailScreen(id: pots[index]['id'],)));
-                                      },
-                                      icon: const Icon(Icons.remove_red_eye_outlined),
-                                      label: const Text('Delete'))
-                                ]),
                               ),
                             );
                           }),

@@ -27,13 +27,13 @@ class ProductsProvider extends ChangeNotifier {
     }
     products.forEach((element) {
       switch (element['category']) {
-        case 'Window Frames':
+        case 'Marcos de Ventana':
           windows.add(element);
           break;
-        case 'Door Frames':
+        case 'Marcos de Puerta':
           doors.add(element);
           break;
-        case 'Pots':
+        case 'Accesorios para Plantas':
           pots.add(element);
           break;
         default:
@@ -70,6 +70,20 @@ class ProductsProvider extends ChangeNotifier {
     final String url = '${_urlBase}products/$id';
     final response = await UtilProvider.rtp.puttHttp(urlBase: url, data: product);
     print(response.statusCode);
+    if (response.statusCode == 204) {
+
+      getProducts();
+      notifyListeners();
+      return true;
+    }
+
+    return false;
+  }
+  
+  Future insertProduct(Product product) async {
+    final String url = '${_urlBase}products/';
+    final response = await UtilProvider.rtp.postHttp(urlBase: url, data: product);
+   
     if (response.statusCode == 204) {
 
       getProducts();

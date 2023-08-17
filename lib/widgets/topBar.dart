@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class TopBar extends StatelessWidget {
+final storage = const FlutterSecureStorage();
+  Future logOut() async {
+    await storage.deleteAll();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -8,9 +14,17 @@ class TopBar extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const Icon(
-            Icons.person,
-            size: 30,
+          GestureDetector(
+            onTap: () {
+              Navigator.pushReplacementNamed(context, '/Cart');
+            },
+            child: const Badge(
+              label: Text("1"),
+              child: Icon(
+                Icons.person,
+                size: 30,
+              ),
+            ),
           ),
           Container(
             height: 35,
@@ -26,12 +40,12 @@ class TopBar extends StatelessWidget {
           ),
           GestureDetector(
             onTap: () {
-              Navigator.pushReplacementNamed(context, '/Cart');
+              logOut();
+              Navigator.pushReplacementNamed(context, "/Login");
             },
             child: const Badge(
-              label: Text("1"),
               child: Icon(
-                Icons.shopping_bag,
+                Icons.exit_to_app,
                 size: 30,
               ),
             ),

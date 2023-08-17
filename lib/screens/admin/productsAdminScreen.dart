@@ -48,20 +48,22 @@ class _ProductListState extends State<ProductList> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: DataTable(
-        showBottomBorder: true,
-        columns: const [
-          DataColumn(label: Text('ID')),
-          DataColumn(label: Text('Name')),
-          DataColumn(label: Text('Price')),
-          DataColumn(label: Text('Description')),
-          DataColumn(label: Text('Category')),
-          DataColumn(label: Text('Mesures')),
-          DataColumn(label: Text('Options')),
-          DataColumn(label: Text('Image')),
-        ],
-        rows: widget.products.map((product) {
+      scrollDirection: Axis.vertical, // Scroll vertical
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal, // Scroll horizontal dentro del vertical
+        child: DataTable(
+          showBottomBorder: true,
+          columns: const [
+            DataColumn(label: Text('ID')),
+            DataColumn(label: Text('Name')),
+            DataColumn(label: Text('Price')),
+            DataColumn(label: Text('Description')),
+            DataColumn(label: Text('Category')),
+            DataColumn(label: Text('Mesures')),
+            DataColumn(label: Text('Options')),
+            DataColumn(label: Text('Image')),
+          ],
+          rows: widget.products.map((product) {
           return DataRow(
             cells: [
               DataCell(Text(product['id'].toString())),
@@ -82,7 +84,7 @@ class _ProductListState extends State<ProductList> {
                     onPressed: () {
                       _showEditProductModal(context, product);
                     },
-                    icon: const Icon(Icons.edit),
+                    icon: const Icon(Icons.remove_red_eye),
                   ),
                   IconButton(
                     icon: const Icon(Icons.delete),
@@ -97,9 +99,12 @@ class _ProductListState extends State<ProductList> {
             ],
           );
         }).toList(),
+        ),
       ),
     );
   }
+
+  
 
   void _showEditProductModal(BuildContext context, product) {
     product = Product.fromJson(product);
@@ -224,11 +229,12 @@ class _EditProductModalState extends State<EditProductModal> {
           mainAxisSize: MainAxisSize.min,
           children: [
             const Text(
-              'Edit Product',
+              'Product Info',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
             TextFormField(
+              readOnly: true,
               initialValue: widget.product.name,
               onChanged: (newValue) {
                 setState(() {
@@ -239,6 +245,7 @@ class _EditProductModalState extends State<EditProductModal> {
             ),
             const SizedBox(height: 16),
             TextFormField(
+              readOnly: true,
               initialValue: widget.product.price.toString(),
               onChanged: (newValue) {
                 setState(() {
@@ -251,6 +258,7 @@ class _EditProductModalState extends State<EditProductModal> {
             ),
             const SizedBox(height: 16),
             TextFormField(
+              readOnly: true,
               initialValue: widget.product.description,
               onChanged: (newValue) {
                 setState(() {
@@ -260,34 +268,19 @@ class _EditProductModalState extends State<EditProductModal> {
               decoration: const InputDecoration(labelText: 'Description'),
             ),
             const SizedBox(height: 16),
-            DropdownButton<String>(
-              value: _dataHasChanged() ? newCategory : _getSelectedCategory(),
+             TextFormField(
+              readOnly: true,
+              initialValue: widget.product.category,
               onChanged: (newValue) {
                 setState(() {
-                  newCategory = newValue ?? _getSelectedCategory() ;
+                  newWidth = newValue;
                 });
               },
-              items: const [
-                DropdownMenuItem<String>(
-                  value: 'Door Frames',
-                  child: Text('Door Frames'),
-                ),
-                DropdownMenuItem<String>(
-                  value: 'Window Frames',
-                  child: Text('Window Frames'),
-                ),
-                DropdownMenuItem<String>(
-                  value: 'Window Protections',
-                  child: Text('Window Protections'),
-                ),
-                DropdownMenuItem<String>(
-                  value: 'Pots Stands',
-                  child: Text('Pots Stands'),
-                ),
-              ],
+              decoration: const InputDecoration(labelText: 'Category'),
             ),
             const SizedBox(height: 16),
             TextFormField(
+              readOnly: true,
               initialValue: widget.product.width,
               onChanged: (newValue) {
                 setState(() {
@@ -297,6 +290,7 @@ class _EditProductModalState extends State<EditProductModal> {
               decoration: const InputDecoration(labelText: 'Width'),
             ),
             TextFormField(
+              readOnly: true,
               initialValue: widget.product.length,
               onChanged: (newValue) {
                 setState(() {
@@ -306,6 +300,7 @@ class _EditProductModalState extends State<EditProductModal> {
               decoration: const InputDecoration(labelText: 'Length'),
             ),
             TextFormField(
+              readOnly: true,
               initialValue: widget.product.height,
               onChanged: (newValue) {
                 setState(() {
@@ -315,69 +310,7 @@ class _EditProductModalState extends State<EditProductModal> {
               decoration: const InputDecoration(labelText: 'Height'),
             ),
             const SizedBox(height: 16),
-            ElevatedButton.icon(
-              style: ButtonStyle(
-                backgroundColor: MaterialStatePropertyAll<Color>(Colors.black),
-              ),
-              label: Text('Save'),
-              icon: Icon(
-                Icons.save,
-                color: Colors.white,
-              ),
-              onPressed: () {
-                if (_dataHasChanged()) {
-                  Product newProduct = Product(
-                    widget.product.id,
-                    newName.isNotEmpty ? newName : widget.product.name,
-                    newDescription.isNotEmpty
-                        ? newDescription
-                        : widget.product.description,
-                    newCategory.isNotEmpty
-                        ? newCategory
-                        : widget.product.category,
-                    newWidth.isNotEmpty ? newWidth : widget.product.width,
-                    newLength.isNotEmpty ? newLength : widget.product.length,
-                    newHeight.isNotEmpty ? newHeight : widget.product.height,
-                    newPrice != 0.0 ? newPrice : widget.product.price,
-                    widget.product.image,
-                  );
-                  productProvider
-                      .updateProduct(newProduct.id.toString(), newProduct)
-                      .then((value) => {
-                            if (value)
-                              {
-                                Flushbar(
-                                  message: "Updated Successfuly",
-                                  icon: Icon(
-                                    Icons.error,
-                                    size: 28.0,
-                                    color: Colors.green,
-                                  ),
-                                  duration: Duration(seconds: 3),
-                                  leftBarIndicatorColor: Colors.green,
-                                )..show(context)
-                              }
-                            else
-                              {
-                                Flushbar(
-                                  message: "Error While Updating",
-                                  icon: Icon(
-                                    Icons.error,
-                                    size: 28.0,
-                                    color: Colors.red,
-                                  ),
-                                  duration: Duration(seconds: 3),
-                                  leftBarIndicatorColor: Colors.red,
-                                )..show(context)
-                              }
-                          });
-                } else {
-                  print("No changes to save.");
-                }
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
+            ],
         ),
       ),
     );
@@ -394,13 +327,12 @@ class _EditProductModalState extends State<EditProductModal> {
   }
 
   String _getSelectedCategory() {
-  if (widget.product.category == 'Door Frames' ||
-      widget.product.category == 'Window Frames' ||
-      widget.product.category == 'Window Protections' ||
-      widget.product.category == 'Pots Stands') {
+  if (widget.product.category == 'Marcos de Puerta' ||
+      widget.product.category == 'Marcos de Ventana' ||
+      widget.product.category == 'Accesorios para Plantas') {
     return widget.product.category;
   } else {
-    return 'Door Frames'; // Selecciona la primera categoría por defecto
+    return 'Marcos de Puerta'; // Selecciona la primera categoría por defecto
   }
 }
 
