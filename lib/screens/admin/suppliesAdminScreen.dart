@@ -58,7 +58,6 @@ class _SupplyListState extends State<SupplyList> {
           DataColumn(label: Text('UseUnit')),
           DataColumn(label: Text('Mesures')),
           DataColumn(label: Text('Options')),
-          DataColumn(label: Text('Image')),
         ],
         rows: widget.supplies.map((supply) {
           return DataRow(
@@ -86,7 +85,6 @@ class _SupplyListState extends State<SupplyList> {
                   ),
                 ],
               )),
-              DataCell(Image.memory(base64.decode(supply['image']))),
             ],
           );
         }).toList(),
@@ -207,7 +205,7 @@ class _EditSupplyModalState extends State<EditSupplyModal> {
           mainAxisSize: MainAxisSize.min,
           children: [
             const Text(
-              'Edit Supply',
+              ' Supply',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
@@ -268,64 +266,7 @@ class _EditSupplyModalState extends State<EditSupplyModal> {
               decoration: const InputDecoration(labelText: 'Equivalence'),
             ),
             const SizedBox(height: 16),
-            ElevatedButton.icon(
-              style: ButtonStyle(
-                backgroundColor: MaterialStatePropertyAll<Color>(Colors.black),
-              ),
-              label: Text('Save'),
-              icon: Icon(Icons.save, color: Colors.white,),
-              onPressed: () {
-                if (_dataHasChanged()) {
-                  Supply newSupply = Supply(
-                    widget.supply.id,
-                    newName.isNotEmpty ? newName : widget.supply.name,
-                    newCost != 0.0 ? newCost : widget.supply.cost,
-                    newBuyUnit.isNotEmpty
-                        ? newBuyUnit
-                        : widget.supply.buyUnit,
-                    newUseUnit.isNotEmpty
-                        ? newUseUnit
-                        : widget.supply.useUnit,
-                    newEquivalence != 0.0 ? newEquivalence : widget.supply.equivalence,
-                    widget.supply.image,
-                  );
-                  supplyProvider
-                      .updateSupply(newSupply.id.toString(), newSupply)
-                      .then((value) => {
-                            if (value)
-                              {
-                                Flushbar(
-                                  message: "Updated Successfuly",
-                                  icon: Icon(
-                                    Icons.error,
-                                    size: 28.0,
-                                    color: Colors.green,
-                                  ),
-                                  duration: Duration(seconds: 3),
-                                  leftBarIndicatorColor: Colors.green,
-                                )..show(context)
-                              }
-                            else
-                              {
-                                Flushbar(
-                                  message: "Error While Updating",
-                                  icon: Icon(
-                                    Icons.error,
-                                    size: 28.0,
-                                    color: Colors.red,
-                                  ),
-                                  duration: Duration(seconds: 3),
-                                  leftBarIndicatorColor: Colors.red,
-                                )..show(context)
-                              }
-                          });
-                } else {
-                  print("No changes to save.");
-                }
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
+            ],
         ),
       ),
     );

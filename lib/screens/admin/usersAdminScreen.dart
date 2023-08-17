@@ -201,7 +201,7 @@ class _EditUserModalState extends State<EditUserModal> {
           mainAxisSize: MainAxisSize.min,
           children: [
             const Text(
-              'Edit User',
+              ' User',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
@@ -239,59 +239,7 @@ class _EditUserModalState extends State<EditUserModal> {
               ],
             ),
             const SizedBox(height: 16),
-            ElevatedButton.icon(
-              style: ButtonStyle(
-                backgroundColor: MaterialStatePropertyAll<Color>(Colors.black),
-              ),
-              label: Text('Save'),
-              icon: Icon(
-                Icons.save,
-                color: Colors.white,
-              ),
-              onPressed: () {
-                if (_dataHasChanged()) {
-                  User newUser = User(
-                    widget.user.id,
-                    newEmail.isNotEmpty ? newEmail : widget.user.email,
-                    newRole.isNotEmpty ? newRole : widget.user.role,
-                  );
-                  userProvider
-                      .updateUser(newUser.id.toString(), newUser)
-                      .then((value) => {
-                            if (value)
-                              {
-                                Flushbar(
-                                  message: "Updated Successfuly",
-                                  icon: Icon(
-                                    Icons.error,
-                                    size: 28.0,
-                                    color: Colors.green,
-                                  ),
-                                  duration: Duration(seconds: 3),
-                                  leftBarIndicatorColor: Colors.green,
-                                )..show(context)
-                              }
-                            else
-                              {
-                                Flushbar(
-                                  message: "Error While Updating",
-                                  icon: Icon(
-                                    Icons.error,
-                                    size: 28.0,
-                                    color: Colors.red,
-                                  ),
-                                  duration: Duration(seconds: 3),
-                                  leftBarIndicatorColor: Colors.red,
-                                )..show(context)
-                              }
-                          });
-                } else {
-                  print("No changes to save.");
-                }
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
+            ],
         ),
       ),
     );

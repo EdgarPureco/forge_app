@@ -198,7 +198,7 @@ class _EditSupplierModalState extends State<EditSupplierModal> {
           mainAxisSize: MainAxisSize.min,
           children: [
             const Text(
-              'Edit Supplier',
+              ' Supplier',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
@@ -235,61 +235,7 @@ class _EditSupplierModalState extends State<EditSupplierModal> {
               decoration: const InputDecoration(labelText: 'Phone'),
             ),
             const SizedBox(height: 16),
-            ElevatedButton.icon(
-              style: ButtonStyle(
-                backgroundColor: MaterialStatePropertyAll<Color>(Colors.black),
-              ),
-              label: Text('Save'),
-              icon: Icon(Icons.save, color: Colors.white,),
-              onPressed: () {
-                if (_dataHasChanged()) {
-                  Supplier newSupplier = Supplier(
-                    widget.supplier.id,
-                    newName.isNotEmpty ? newName : widget.supplier.name,
-                    newEmail.isNotEmpty
-                        ? newEmail
-                        : widget.supplier.email,
-                    newPhone.isNotEmpty
-                        ? newPhone
-                        : widget.supplier.phone,
-                  );
-                  supplierProvider
-                      .updateSupplier(newSupplier.id.toString(), newSupplier)
-                      .then((value) => {
-                            if (value)
-                              {
-                                Flushbar(
-                                  message: "Updated Successfuly",
-                                  icon: Icon(
-                                    Icons.error,
-                                    size: 28.0,
-                                    color: Colors.green,
-                                  ),
-                                  duration: Duration(seconds: 3),
-                                  leftBarIndicatorColor: Colors.green,
-                                )..show(context)
-                              }
-                            else
-                              {
-                                Flushbar(
-                                  message: "Error While Updating",
-                                  icon: Icon(
-                                    Icons.error,
-                                    size: 28.0,
-                                    color: Colors.red,
-                                  ),
-                                  duration: Duration(seconds: 3),
-                                  leftBarIndicatorColor: Colors.red,
-                                )..show(context)
-                              }
-                          });
-                } else {
-                  print("No changes to save.");
-                }
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
+            ],
         ),
       ),
     );
