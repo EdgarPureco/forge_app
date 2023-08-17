@@ -69,7 +69,7 @@ class _SupplierListState extends State<SupplierList> {
                     onPressed: () {
                       _showEditSupplierModal(context, supplier);
                     },
-                    icon: const Icon(Icons.edit),
+                    icon: const Icon(Icons.remove_red_eye),
                   ),
                   IconButton(
                     icon: const Icon(Icons.delete),
@@ -203,6 +203,7 @@ class _EditSupplierModalState extends State<EditSupplierModal> {
             ),
             const SizedBox(height: 16),
             TextFormField(
+              readOnly: true,
               initialValue: widget.supplier.name,
               onChanged: (newValue) {
                 setState(() {
@@ -213,6 +214,7 @@ class _EditSupplierModalState extends State<EditSupplierModal> {
             ),
             const SizedBox(height: 16),
             TextFormField(
+              readOnly: true,
               initialValue: widget.supplier.email,
               onChanged: (newValue) {
                 setState(() {
@@ -223,6 +225,7 @@ class _EditSupplierModalState extends State<EditSupplierModal> {
             ),
             const SizedBox(height: 16),
             TextFormField(
+              readOnly: true,
               initialValue: widget.supplier.phone,
               onChanged: (newValue) {
                 setState(() {

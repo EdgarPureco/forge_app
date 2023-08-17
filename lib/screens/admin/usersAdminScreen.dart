@@ -66,7 +66,7 @@ class _UserListState extends State<UserList> {
                     onPressed: () {
                       _showEditUserModal(context, user);
                     },
-                    icon: const Icon(Icons.edit),
+                    icon: const Icon(Icons.remove_red_eye),
                   ),
                   IconButton(
                     icon: const Icon(Icons.delete),
@@ -206,6 +206,7 @@ class _EditUserModalState extends State<EditUserModal> {
             ),
             const SizedBox(height: 16),
             TextFormField(
+              readOnly: true,
               initialValue: widget.user.email,
               onChanged: (newValue) {
                 setState(() {

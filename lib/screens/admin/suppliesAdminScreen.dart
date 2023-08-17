@@ -75,7 +75,7 @@ class _SupplyListState extends State<SupplyList> {
                     onPressed: () {
                       _showEditSupplyModal(context, supply);
                     },
-                    icon: const Icon(Icons.edit),
+                    icon: const Icon(Icons.remove_red_eye),
                   ),
                   IconButton(
                     icon: const Icon(Icons.delete),
@@ -212,6 +212,7 @@ class _EditSupplyModalState extends State<EditSupplyModal> {
             ),
             const SizedBox(height: 16),
             TextFormField(
+              readOnly: true,
               initialValue: widget.supply.name,
               onChanged: (newValue) {
                 setState(() {
@@ -222,6 +223,7 @@ class _EditSupplyModalState extends State<EditSupplyModal> {
             ),
             const SizedBox(height: 16),
             TextFormField(
+              readOnly: true,
               initialValue: widget.supply.cost.toString(),
               onChanged: (newValue) {
                 setState(() {
@@ -234,6 +236,7 @@ class _EditSupplyModalState extends State<EditSupplyModal> {
             ),
             const SizedBox(height: 16),
             TextFormField(
+              readOnly: true,
               initialValue: widget.supply.buyUnit,
               onChanged: (newValue) {
                 setState(() {
@@ -244,6 +247,7 @@ class _EditSupplyModalState extends State<EditSupplyModal> {
             ),
             const SizedBox(height: 16),
             TextFormField(
+              readOnly: true,
               initialValue: widget.supply.useUnit,
               onChanged: (newValue) {
                 setState(() {
@@ -254,6 +258,7 @@ class _EditSupplyModalState extends State<EditSupplyModal> {
             ),
             const SizedBox(height: 16),
             TextFormField(
+              readOnly: true,
               initialValue: widget.supply.equivalence.toString(),
               onChanged: (newValue) {
                 setState(() {

@@ -24,7 +24,6 @@ class AppRoutes {
     '/Admin/Supplies': (BuildContext context) => const SuppliesAdminScreen(),
     '/Admin/Suppliers': (BuildContext context) => const SuppliersAdminScreen(),
     '/Admin/Users': (BuildContext context) => const UsersAdminScreen(),
-    // '/Admin/Customers': (BuildContext context) => const CustomersAdminScreen(),
   };
   static onGenerateRoute(settings) {
     return MaterialPageRoute(builder: (context) => const ErrorScreen());
@@ -35,7 +34,6 @@ class AppRoutes {
     MenuOption(router: '/Admin/Supplies', icon: Icons.assignment, name: "Supplies"),
     MenuOption(router: '/Admin/Suppliers', icon: Icons.airport_shuttle, name: "Suppliers"),
     MenuOption(router: '/Admin/Users', icon: Icons.person, name: "Users"),
-    MenuOption(router: '/Admin/Customers', icon: Icons.account_box, name: "Customers"),
   ];
 
   
