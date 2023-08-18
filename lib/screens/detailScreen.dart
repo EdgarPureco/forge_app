@@ -57,28 +57,29 @@ class _DetailScreenState extends State<DetailScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             Text(
                               product.name,
-                              style: GlobalData.textBlack22,
+                              style: GlobalData.textBlack20,
                             ),
+                            const SizedBox(height: 10),
                             Text(
                               '\$${product.price}',
-                              style: GlobalData.textBlack24,
+                              style: GlobalData.textBlack18Ht,
                             ),
                           ],
                         ),
-                        const SizedBox(height: 15),
-                        Text(
-                          product.category,
-                          style: GlobalData.textBlack22,
-                        ),
                         const SizedBox(height: 35),
                         Text(
+                          product.category,
+                          style: GlobalData.textBlack18Ht,
+                        ),
+                        const SizedBox(height: 15),
+                        Text(
                           product.description,
-                          style: GlobalData.textBlack22,
+                          style: GlobalData.textGrey18,
                         ),
                         const SizedBox(height: 15),
                         GestureDetector(

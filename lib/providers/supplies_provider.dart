@@ -4,7 +4,7 @@ import 'package:forge_app/models/supply.dart';
 import '../providers/util_provider.dart';
 
 class SuppliesProvider extends ChangeNotifier {
-  final String _urlBase = 'http://localhost:5088/api/';
+  final String _urlBase = 'http://192.168.100.24:5088/api/';
 
   SuppliesProvider() {
     getSupplies();

@@ -4,14 +4,14 @@ import 'package:forge_app/models/product.dart';
 import '../providers/util_provider.dart';
 
 class ProductsProvider extends ChangeNotifier {
-  final String _urlBase = 'http://localhost:5088/api/';
+  final String _urlBase = 'http://192.168.100.24:5088/api/';
 
   ProductsProvider() {
     getProducts();
   }
 
   List<dynamic> products = [];
-  dynamic product;
+  dynamic product = {};
   List<dynamic> doors = [];
   List<dynamic> windows = [];
   List<dynamic> pots = [];
@@ -49,6 +49,7 @@ class ProductsProvider extends ChangeNotifier {
     if (response.statusCode == 200) {
       var jResponse = jsonDecode(response.body);
       product = Product.fromJson(jResponse);
+      print('HOLA'+ product);
       notifyListeners();
     }
   }

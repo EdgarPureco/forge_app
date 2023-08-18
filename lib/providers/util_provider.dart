@@ -104,7 +104,7 @@ class UtilProvider extends ChangeNotifier {
 
   Future saveStrorage({required String email, required String password}) async {
     var response = await login(
-        urlBase: 'http://localhost:5088/api/login/',
+        urlBase: 'http://192.168.100.24:5088/api/login/',
         email: email,
         password: password);
 
